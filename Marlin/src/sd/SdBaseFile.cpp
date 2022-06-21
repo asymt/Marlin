@@ -2154,7 +2154,7 @@ int16_t SdBaseFile::write(const void *buf, uint16_t nbyte) {
 
   while (nToWrite > 0) {
     uint8_t blockOfCluster = vol_->blockOfCluster(curPosition_);
-    uint16_t blockOffset = curPosition_ & 0x1FF;
+    uint16_t blockOffset = curPosition_ & 0x3FF;
     if (blockOfCluster == 0 && blockOffset == 0) {
       // start of new cluster
       if (curCluster_ == 0) {
@@ -2179,14 +2179,14 @@ int16_t SdBaseFile::write(const void *buf, uint16_t nbyte) {
       }
     }
     // max space in block
-    uint16_t n = 512 - blockOffset;
+    uint16_t n = 1024 - blockOffset;
 
     // lesser of space and amount to write
     NOMORE(n, nToWrite);
 
     // block for data write
     uint32_t block = vol_->clusterStartBlock(curCluster_) + blockOfCluster;
-    if (n == 512) {
+    if (n == 1024) {
       // full block - don't need to use cache
       if (vol_->cacheBlockNumber() == block) {
         // invalidate cache if block is in cache

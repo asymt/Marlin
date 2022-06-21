@@ -54,7 +54,7 @@
  * \brief Cache for an SD data block
  */
 union cache_t {
-  uint8_t         data[512];  // Used to access cached file data blocks.
+  uint8_t         data[1024];  // Used to access cached file data blocks.
   uint16_t        fat16[256]; // Used to access cached FAT16 entries.
   uint32_t        fat32[128]; // Used to access cached FAT32 entries.
   dir_t           dir[16];    // Used to access cached directory entries.
